@@ -1,6 +1,3 @@
--- 02_indexes.sql : indeks tambahan. PK dan UNIQUE sudah diindeks otomatis oleh PostgreSQL,
--- FK tidak. Tiap indeks diberi alasan (query yang dilayani).
-
 -- Antrian CS/PD: filter parcel menurut status (MO-33)
 CREATE INDEX idx_parcel_status ON parcel(status);
 -- Daftar parcel per client (MO-20, RLS parcel_milik_client)
