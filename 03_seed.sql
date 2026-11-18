@@ -1,16 +1,7 @@
--- 03_seed.sql : data MawriCards dari pesanan JUAL asli pada MLP_Orders_Newest_1.xlsx
--- Sumber: tab 'jastip celine 2026', 'FIX BAO Agust 2026 Jual', 'Jual dadakan Okt 2026', cards_clean.csv
---         + katalog (blok katalog Celine dan tab 'Catalog Bao Agust 2026') untuk produk belum terjual.
--- Tab Celine = sesi Celine (ENDED); tab BAO + Jual Dadakan = sesi BAO (ACTIVE, Jual Dadakan sebagai pesanan tambahan).
--- Daftar produk tambahan: cards_clean.csv. Tanggal tidak tercatat di Excel, jadi tanggal dibuat (Apr-Agu 2026);
--- data dianggap diambil pada 31 Agustus 2026 20:00 WIB.
 -- Semua nominal dihitung dari aturan Fase 1-2: modal = RMB x kurs x (1 + markup tingkat tarif),
--- berat kartu 2+8+10 g (BR-71), perkiraan biaya berat = berat baris x tarif/gram tingkat berat
--- yang dicapai total berat sesi (BR-70), DP tepat 50% (BR-22), batch dipesan saat >= 100 RMB (BR-27),
--- kemasan FIFO per ukuran (BR-52, BR-73). Satuan: harga_dasar_rmb, harga_jual, modal_shipper per unit;
--- berat_gram dan perkiraan_biaya_berat per baris (Fix List A8).
+-- berat kartu 2+8+10 g (BR-71), perkiraan biaya berat = berat baris x tarif/gram tingkat berat yang dicapai total berat sesi (BR-70)
+-- DP tepat 50% (BR-22), batch dipesan saat >= 100 RMB (BR-27),
 -- Kontak client (nama lengkap, WA, email) tidak ada di Excel, jadi diisi data ilustrasi dari username.
--- Jalankan 00_reset.sql lebih dulu bila perlu mengulang. Kolom identity tidak diisi manual.
 
 -- ------------------------------------------------------------------
 -- 1. Tabel referensi
