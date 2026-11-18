@@ -31,24 +31,28 @@ ALTER TABLE riwayat_baris        ENABLE ROW LEVEL SECURITY;
 ALTER TABLE riwayat_parcel       ENABLE ROW LEVEL SECURITY;
 ALTER TABLE riwayat_batch        ENABLE ROW LEVEL SECURITY;
 
--- 1. Client hanya melihat barisnya sendiri
+-- Client hanya melihat barisnya sendiri
+
 CREATE POLICY client_lihat_diri ON client
   FOR SELECT TO authenticated
   USING (auth_user_id = auth.uid());
 
--- 2. Client hanya melihat parcel miliknya
+-- Client hanya melihat parcel miliknya
+
 CREATE POLICY parcel_milik_client ON parcel
   FOR SELECT TO authenticated
   USING (id_client IN (SELECT id_client FROM client WHERE auth_user_id = auth.uid()));
 
--- 3. Client hanya melihat pesanan di parcel miliknya
+-- Client hanya melihat pesanan di parcel miliknya
+
 CREATE POLICY pesanan_milik_client ON pesanan
   FOR SELECT TO authenticated
   USING (id_parcel IN (SELECT p.id_parcel FROM parcel p
                        JOIN client c ON c.id_client = p.id_client
                        WHERE c.auth_user_id = auth.uid()));
 
--- 4. Katalog produk bersifat publik (anon dan authenticated)
+-- Katalog produk bersifat publik (anon dan authenticated)
+
 CREATE POLICY katalog_kartu ON kartu_individual
   FOR SELECT TO anon, authenticated USING (true);
 CREATE POLICY katalog_set ON set_kartu

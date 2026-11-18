@@ -1,7 +1,8 @@
 -- Sequence bersama untuk kartu_individual dan set_kartu (subclass Produk)
+
 CREATE SEQUENCE seq_produk;
 
--- 1. Tabel referensi
+-- Tabel referensi
 
 CREATE TABLE rarity (
     id_rarity    INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -59,7 +60,7 @@ CREATE TABLE pembelian_kemasan (
     dicatat_oleh  INT NOT NULL REFERENCES staf(id_staf) ON DELETE RESTRICT
 );
 
--- 2. Rubrik tarif dan parameter berversi
+-- Rubrik tarif dan parameter berversi
 
 CREATE TABLE rubrik_tarif (
     id_rubrik       INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -98,7 +99,7 @@ CREATE TABLE parameter_berversi (
     ditetapkan_oleh INT NOT NULL REFERENCES staf(id_staf) ON DELETE RESTRICT
 );
 
--- 3. Produk (subclass Produk) dan penawaran
+-- Produk dan penawaran
 
 CREATE TABLE kartu_individual (
     id_produk       INT PRIMARY KEY DEFAULT nextval('seq_produk'),
@@ -148,7 +149,7 @@ CREATE TABLE penawaran (
     UNIQUE (id_set_kartu, id_distributor)
 );
 
--- 4. Sesi, batch, parcel, pesanan
+-- Sesi, batch, parcel, pesanan
 
 CREATE TABLE sesi_jastip (
     id_sesi       INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -208,7 +209,7 @@ CREATE TABLE baris_pesanan (
     PRIMARY KEY (id_pesanan, no_baris)
 );
 
--- 5. Sisanya: cek stok, penukaran, pembayaran, refund, shopee, laporan, riwayat
+-- Cek stok, penukaran, pembayaran, refund, Shopee, laporan staf, riwayat
 
 CREATE TABLE cek_stok (
     id_pesanan  INT NOT NULL,
@@ -326,7 +327,8 @@ CREATE TABLE riwayat_batch (
     id_batch     INT NOT NULL REFERENCES batch_pengadaan(id_batch) ON DELETE RESTRICT
 );
 
--- View opsional: satu daftar produk untuk situs web (UNION ALL kedua subclass)
+-- View daftar produk untuk situs web (gabungan kartu satuan dan set)
+
 CREATE VIEW v_produk AS
     SELECT id_produk, 'KARTU'::text AS jenis, nama, harga_jual, url_gambar, id_rarity, id_seri
     FROM kartu_individual
