@@ -1,7 +1,3 @@
--- 04_rls.sql : Row Level Security (SR-04, "keamanan data")
--- Tabel dengan RLS aktif dan tanpa policy tidak mengembalikan baris ke pengguna API
--- (default aman). SQL Editor Supabase berjalan sebagai admin sehingga tidak terpengaruh.
-
 ALTER TABLE rarity               ENABLE ROW LEVEL SECURITY;
 ALTER TABLE seri                 ENABLE ROW LEVEL SECURITY;
 ALTER TABLE karakter             ENABLE ROW LEVEL SECURITY;
