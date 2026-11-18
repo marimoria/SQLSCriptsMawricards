@@ -1,9 +1,3 @@
--- =====================================================================
--- 01_schema.sql : MawriCards Fase 3 (PostgreSQL / Supabase)
--- 32 tabel, urutan: induk lebih dahulu, anak kemudian.
--- Semua FK memakai ON DELETE RESTRICT kecuali tertulis CASCADE.
--- =====================================================================
-
 -- Sequence bersama untuk kartu_individual dan set_kartu (subclass Produk)
 CREATE SEQUENCE seq_produk;
 
