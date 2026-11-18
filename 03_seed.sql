@@ -3,9 +3,8 @@
 -- DP tepat 50% (BR-22), batch dipesan saat >= 100 RMB (BR-27),
 -- Kontak client (nama lengkap, WA, email) tidak ada di Excel, jadi diisi data ilustrasi dari username.
 
--- ------------------------------------------------------------------
 -- 1. Tabel referensi
--- ------------------------------------------------------------------
+
 INSERT INTO rarity (nama_rarity) VALUES
   ('R'),
   ('HR'),
@@ -320,12 +319,10 @@ INSERT INTO pembelian_kemasan (tanggal_beli, sumber, ukuran, jumlah, total_biaya
   ('2026-07-15', 'Tokopedia', 'BESAR', 10, 25000, 1),
   ('2026-08-18', 'Shopee', 'KECIL', 20, 24000, 1);
 
--- ------------------------------------------------------------------
 -- 2. Rubrik tarif dan parameter berversi
--- ------------------------------------------------------------------
+
 -- Celine pada Excel: RMB x 3.000 + 7.256 per kartu. Di model Fase 2 ini menjadi pajak jasa 0%
 -- dan tarif berat 362,8/g (20 g x 362,8 = 7.256). BAO: RMB x 2.850 x 1,25 (<100 RMB) atau x 1,15.
--- Tarif berat BAO dan rubrik tahun 2025 adalah ilustrasi (tidak tercatat di Excel).
 INSERT INTO rubrik_tarif (id_shipper, berlaku_mulai, berlaku_sampai) VALUES
   (1, '2025-07-01', '2025-12-31'),
   (1, '2026-01-01', NULL),
@@ -364,7 +361,7 @@ INSERT INTO parameter_berversi (nama_parameter, nilai, id_shipper, berlaku_mulai
   ('BATAS_KEMASAN_KECIL', 25, NULL, '2026-01-01 08:00:00+07', 1),
   ('ESTIMASI_KEMASAN_BARIS', 500, NULL, '2026-01-01 08:00:00+07', 1);
 
--- ------------------------------------------------------------------
+
 -- 3. Produk: kartu satuan id_produk 1-1506, set 1507-1546
 -- Seri dari kode di Excel: mN = Moon Edition N, rN = Rainbow Edition N, fun N / FM N = Fun Moments N,
 -- star N = Star Edition N, BP0N = TCG Booster Pack 0N, PR = promo, TCG = TCG.
@@ -378,7 +375,7 @@ INSERT INTO parameter_berversi (nama_parameter, nilai, id_shipper, berlaku_mulai
 -- tetap di nama produk. jumlah_kartu Character Plate (6) dan Full Set tanpa jumlah adalah estimasi.
 -- url_gambar: gambar kartu dari waifucards.app (/img/cards/<set>/<rarity>-<nomor>.webp) bila rarity+seri+karakter
 -- (atau kode kartu pada nama) cocok dengan tepat satu kartu; selain itu 'Image Link' CSV (listing Xianyu); NULL bila tidak ada.
--- ------------------------------------------------------------------
+
 INSERT INTO kartu_individual (nama, harga_jual, url_gambar, id_rarity, id_seri, id_karakter, disetujui_oleh) VALUES
   ('SGR M5 Fluttershy (SGR-032)', 100000, 'https://waifucards.app/img/cards/MLP-T4W5/SGR-032.webp', 7, 5, 6, 1),
   ('SC M5 Rarity x Sweetie Belle', 240000, 'https://waifucards.app/img/cards/MLP-T4W5/SC-022.webp', 9, 5, 4, 1),
@@ -2138,12 +2135,8 @@ INSERT INTO set_karakter (id_produk, id_karakter) VALUES
   (1545, 6),
   (1546, 1);
 
--- ------------------------------------------------------------------
--- 4. Penawaran. RMB dari Excel (Celine: (harga celine - 7.256) / 3.000). Bila satu toko punya
--- beberapa harga untuk produk yang sama, dipakai harga terbaru; harga lama tetap ada di snapshot baris.
--- Kartu dari set yang dipecah (BR-18): RMB = harga set / jumlah kartu.
--- ESTIMASI = toko dan RMB tidak tercatat di Excel (Jual Dadakan). ketersediaan false = stok habis (TR-11).
--- ------------------------------------------------------------------
+-- 4. Penawaran.
+
 INSERT INTO penawaran (id_kartu_individual, id_set_kartu, id_distributor, harga_rmb, tautan, ketersediaan, minimum_qty) VALUES
   (1, NULL, 2, 11.93, NULL, true, 1),
   (1, NULL, 9, 12.00, 'https://mobile.yangkeduo.com/goods.html?ps=GkxbdfKmnq', true, 1),
@@ -3799,11 +3792,8 @@ INSERT INTO penawaran (id_kartu_individual, id_set_kartu, id_distributor, harga_
   (NULL, 1545, 20, 15.00, 'https://www.goofish.com/item?id=841533637953', true, 1),
   (NULL, 1546, 20, 5.00, 'https://www.goofish.com/item?id=893627579387', true, 1);
 
--- Penawaran ESTIMASI: id_penawaran 117, 210, 230, 231, 232, 233
-
--- ------------------------------------------------------------------
 -- 5. Sesi jastip (1 tab Excel = 1 sesi), batch, parcel, pesanan
--- ------------------------------------------------------------------
+
 INSERT INTO sesi_jastip (nama_sesi, status, waktu_mulai, waktu_tutup, id_shipper, ditutup_oleh) VALUES
   ('Jastip Celine April 2026', 'ENDED', '2026-04-01 09:00:00+07', '2026-04-30 21:00:00+07', 2, 1),
   ('Jastip BAO Agustus 2026', 'ACTIVE', '2026-07-20 09:00:00+07', NULL, 1, NULL);
@@ -3974,9 +3964,8 @@ INSERT INTO pesanan (id_parcel, waktu_pesan) VALUES
   (60, '2026-08-30 14:00:00+07'),
   (58, '2026-08-31 08:00:00+07');
 
--- ------------------------------------------------------------------
 -- 6. Baris pesanan. Kolom terakhir di komentar = nomor baris Excel asal.
--- ------------------------------------------------------------------
+
 INSERT INTO baris_pesanan (id_pesanan, no_baris, id_penawaran, id_batch, jumlah, berat_gram, harga_dasar_rmb, harga_jual, modal_shipper, perkiraan_biaya_berat, status) VALUES
   (1, 1, 2, 1, 1, 20, 12.00, 100000, 36000, 7256, 'ARRIVED'),
   (1, 2, 206, 1, 1, 20, 10.00, 75000, 30000, 7256, 'ARRIVED'),
@@ -4146,84 +4135,8 @@ INSERT INTO baris_pesanan (id_pesanan, no_baris, id_penawaran, id_batch, jumlah,
   (72, 1, 82, 27, 1, 20, 6.13, 28000, 21838, 2600, 'SIAP_CO'),
   (73, 1, 251, NULL, 1, 20, 1.41, 12000, 5023, 2600, 'MENUNGGU_DP');
 
--- Asal baris (sesi/tab, baris Excel, username):
---   pesanan   1: CEL b1=r2, b2=r3 (chey)
---   pesanan   2: CEL b1=r4 (crystal_caorusel)
---   pesanan   3: CEL b1=r5 (donggeuinie)
---   pesanan   4: CEL b1=r6 (hyunnn)
---   pesanan   5: CEL b1=r7 (ichigo)
---   pesanan   6: CEL b1=r8 (je)
---   pesanan   7: CEL b1=r9, b2=r10 (lgxttaluv)
---   pesanan   8: CEL b1=r11, b2=r12, b3=r13 (mingmengmong)
---   pesanan   9: CEL b1=r14, b2=r15 (nathe)
---   pesanan  10: CEL b1=r16 (ppiupexie)
---   pesanan  11: CEL b1=r17 (qiloiy)
---   pesanan  12: CEL b1=r18, b2=r19 (raven)
---   pesanan  13: CEL b1=r22, b2=r23 (scrible)
---   pesanan  14: CEL b1=r20, b2=r21 (raven)
---   pesanan  15: CEL b1=r24, b2=r25 (shofia)
---   pesanan  16: CEL b1=r26 (taris)
---   pesanan  17: CEL b1=r27, b2=r28, b3=r29 (vevelyin)
---   pesanan  18: BAO b1=r2, b2=r3 (adorable_scrible)
---   pesanan  19: BAO b1=r4 (alya)
---   pesanan  20: BAO b1=r5 (ash)
---   pesanan  21: BAO b1=r6, b2=r7 (awell_swift)
---   pesanan  22: BAO b1=r8 (blue_rine)
---   pesanan  23: BAO b1=r8, b2=r8, b3=r77, b4=r78 (kiro)
---   pesanan  24: BAO b1=r8 (nara)
---   pesanan  25: BAO b1=r8 (tata)
---   pesanan  26: BAO b1=r9, b2=r10, b3=r11, b4=r12 (canis)
---   pesanan  27: BAO b1=r16, b2=r17, b3=r18, b4=r19, b5=r20, b6=r21, b7=r22, b8=r23, b9=r24, b10=r25, b11=r26 (crepe)
---   pesanan  28: BAO b1=r79, b2=r80, b3=r81, b4=r81 (kiro)
---   pesanan  29: BAO b1=r38 (dashy)
---   pesanan  30: BAO b1=r40, b2=r41, b3=r42, b4=r43, b5=r44 (el)
---   pesanan  31: BAO b1=r49, b2=r50, b3=r51, b4=r52, b5=r53 (eriee)
---   pesanan  32: BAO b1=r13, b2=r14, b3=r15, b4=r81 (canis)
---   pesanan  33: BAO b1=r60, b2=r61 (fa)
---   pesanan  34: BAO b1=r27, b2=r28, b3=r29, b4=r30, b5=r31, b6=r32, b7=r33, b8=r34, b9=r35, b10=r36, b11=r37 (crepe)
---   pesanan  35: BAO b1=r62, b2=r63 (fluoaa)
---   pesanan  36: BAO b1=r66, b2=r67 (fruitcakecindy)
---   pesanan  37: BAO b1=r45, b2=r46, b3=r47, b4=r48 (el)
---   pesanan  38: BAO b1=r69 (han)
---   pesanan  39: BAO b1=r54, b2=r56, b3=r57, b4=r59 (eriee)
---   pesanan  40: BAO b1=r70 (irenee)
---   pesanan  41: BAO b1=r71 (jacksdiary)
---   pesanan  42: BAO b1=r64, b2=r65 (fluoaa)
---   pesanan  43: BAO b1=r72, b2=r73, b3=r74 (joy)
---   pesanan  44: BAO b1=r75, b2=r76 (ketttt)
---   pesanan  45: BAO b1=r82, b2=r83, b3=r84 (kopi)
---   pesanan  46: BAO b1=r85 (raritdefleurz)
---   pesanan  47: BAO b1=r86 (meowbo)
---   pesanan  48: BAO b1=r87 (mlpcards)
---   pesanan  49: BAO b1=r88, b2=r89, b3=r90 (nots)
---   pesanan  50: BAO b1=r94 (pinkiesa)
---   pesanan  51: BAO b1=r95, b2=r96 (sakurachan)
---   pesanan  52: BAO b1=r97 (serena_beloved)
---   pesanan  53: BAO b1=r98 (shofia)
---   pesanan  54: BAO b1=r91, b2=r92, b3=r93 (nots)
---   pesanan  55: BAO b1=r99 (stella)
---   pesanan  56: BAO b1=r100, b2=r101 (vienne)
---   pesanan  57: BAO b1=r102 (vxeira.nyx)
---   pesanan  58: BAO b1=r103 (wawa)
---   pesanan  59: BAO b1=r104, b2=r105 (zenia)
---   pesanan  60: BAO b1=r106, b2=r107 (zenia)
---   pesanan  61: BAO b1=r2, b2=r3, b3=r4, b4=r5, b5=r6 (acellingdecoration)
---   pesanan  62: BAO b1=r7, b2=r8, b3=r9, b4=r10, b5=r11 (crepe)
---   pesanan  63: BAO b1=r12, b2=r13, b3=r14 (kopi)
---   pesanan  64: BAO b1=r20, b2=r21, b3=r22, b4=r23, b5=r24 (argumen.semesta)
---   pesanan  65: BAO b1=r25, b2=r26 (sendalkejepitz)
---   pesanan  66: BAO b1=r27, b2=r28 (onion.naufa)
---   pesanan  67: BAO b1=r16, b2=r17 (zenia)
---   pesanan  68: BAO b1=r30, b2=r31 (sparklycay)
---   pesanan  69: BAO b1=r15 (suisen._)
---   pesanan  70: BAO b1=r18 (telurmatasapphic)
---   pesanan  71: BAO b1=r32 (ren)
---   pesanan  72: BAO b1=r29 (scrible)
---   pesanan  73: BAO b1=r19 (telurmatasapphic)
-
--- ------------------------------------------------------------------
 -- 7. Cek stok (PRA_PESAN oleh CS = 'Stock pagi'; PRA_BATCH oleh Procurement) dan penukaran
--- ------------------------------------------------------------------
+
 INSERT INTO cek_stok (id_pesanan, no_baris, no_cek, tahap, hasil, id_staf, waktu_cek) VALUES
   (1, 1, 1, 'PRA_PESAN', 'TERSEDIA', 2, '2026-04-01 09:50:00+07'),
   (1, 1, 2, 'PRA_BATCH', 'TERSEDIA', 3, '2026-04-10 09:30:00+07'),
@@ -4565,9 +4478,8 @@ INSERT INTO penukaran (id_pesanan, no_baris, no_tukar, id_penawaran_lama, id_pen
   (61, 1, 1, 167, 171, 2, '2026-08-20 11:00:00+07'),
   (64, 2, 1, 247, 252, 2, '2026-08-22 11:00:00+07');
 
--- ------------------------------------------------------------------
 -- 8. Pembayaran DP (tepat 50% per pesanan, BR-22), pelunasan, refund
--- ------------------------------------------------------------------
+
 INSERT INTO pembayaran_dp (nominal, status_qris, waktu_dibuat, waktu_kedaluwarsa, waktu_dibayar, id_pesanan) VALUES
   (87500, 'PAID', '2026-04-01 10:00:00+07', '2026-04-02 10:00:00+07', '2026-04-01 10:45:00+07', 1),
   (17500, 'PAID', '2026-04-02 19:00:00+07', '2026-04-03 19:00:00+07', '2026-04-02 19:45:00+07', 2),
@@ -4710,9 +4622,8 @@ INSERT INTO refund (id_pesanan, no_baris, nominal, alasan, diterima_oleh, waktu_
   (63, 3, 65000, 'STOK_HABIS', NULL, NULL, 5, '2026-08-14 11:00:00+07'),
   (68, 1, 45000, 'STOK_HABIS', NULL, NULL, NULL, NULL);
 
--- ------------------------------------------------------------------
 -- 9. Transaksi Shopee (parcel lengkap dan lunas, BR-38) dan laporan staf
--- ------------------------------------------------------------------
+
 INSERT INTO transaksi_shopee (id_parcel, no_pesanan_shopee, kode_spx, nominal_listing, waktu_transaksi, dicatat_oleh) VALUES
   (1, '260423001SHP', 'SPX004230001', 99, '2026-04-23 11:00:00+07', 2),
   (2, '260423002SHP', 'SPX004230002', 99, '2026-04-23 11:00:00+07', 5),
@@ -4771,9 +4682,9 @@ INSERT INTO laporan_staf (jenis, isi, waktu, id_pelapor, id_penerima) VALUES
   ('LAPORAN_PROCUREMENT', 'Batch COLLECTING sesi BAO Agustus baru 6.13 RMB dari ambang 100 RMB.', '2026-08-31 16:00:00+07', 3, 1),
   ('LAPORAN_CS', 'Sesi BAO Agustus: DP terkumpul Rp10.816.500. 1 parcel lengkap menunggu pelunasan.', '2026-08-31 17:00:00+07', 2, 1);
 
--- ------------------------------------------------------------------
+
 -- 10. Riwayat status (id_staf NULL = diubah sistem, BR-57)
--- ------------------------------------------------------------------
+
 INSERT INTO riwayat_baris (status_lama, status_baru, waktu, id_staf, id_pesanan, no_baris) VALUES
   (NULL, 'MENUNGGU_DP', '2026-04-01 10:00:00+07', NULL, 1, 1),
   (NULL, 'MENUNGGU_DP', '2026-04-01 10:00:00+07', NULL, 1, 2),

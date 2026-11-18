@@ -1,9 +1,8 @@
 -- Sequence bersama untuk kartu_individual dan set_kartu (subclass Produk)
 CREATE SEQUENCE seq_produk;
 
--- ---------------------------------------------------------------------
 -- 1. Tabel referensi
--- ---------------------------------------------------------------------
+
 CREATE TABLE rarity (
     id_rarity    INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nama_rarity  VARCHAR(50) NOT NULL UNIQUE
@@ -60,9 +59,8 @@ CREATE TABLE pembelian_kemasan (
     dicatat_oleh  INT NOT NULL REFERENCES staf(id_staf) ON DELETE RESTRICT
 );
 
--- ---------------------------------------------------------------------
 -- 2. Rubrik tarif dan parameter berversi
--- ---------------------------------------------------------------------
+
 CREATE TABLE rubrik_tarif (
     id_rubrik       INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_shipper      INT NOT NULL REFERENCES shipper(id_shipper) ON DELETE RESTRICT,
@@ -100,9 +98,8 @@ CREATE TABLE parameter_berversi (
     ditetapkan_oleh INT NOT NULL REFERENCES staf(id_staf) ON DELETE RESTRICT
 );
 
--- ---------------------------------------------------------------------
 -- 3. Produk (subclass Produk) dan penawaran
--- ---------------------------------------------------------------------
+
 CREATE TABLE kartu_individual (
     id_produk       INT PRIMARY KEY DEFAULT nextval('seq_produk'),
     nama            VARCHAR(150) NOT NULL,
@@ -151,9 +148,8 @@ CREATE TABLE penawaran (
     UNIQUE (id_set_kartu, id_distributor)
 );
 
--- ---------------------------------------------------------------------
 -- 4. Sesi, batch, parcel, pesanan
--- ---------------------------------------------------------------------
+
 CREATE TABLE sesi_jastip (
     id_sesi       INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nama_sesi     VARCHAR(100) NOT NULL,
@@ -212,9 +208,8 @@ CREATE TABLE baris_pesanan (
     PRIMARY KEY (id_pesanan, no_baris)
 );
 
--- ---------------------------------------------------------------------
 -- 5. Sisanya: cek stok, penukaran, pembayaran, refund, shopee, laporan, riwayat
--- ---------------------------------------------------------------------
+
 CREATE TABLE cek_stok (
     id_pesanan  INT NOT NULL,
     no_baris    INT NOT NULL,
